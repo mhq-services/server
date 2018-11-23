@@ -654,9 +654,11 @@ class Manager implements IManager {
 		}
 
 		// Generate the target
-		$target = $this->config->getSystemValue('share_folder', '/') .'/'. $share->getNode()->getName();
-		$target = \OC\Files\Filesystem::normalizePath($target);
-		$share->setTarget($target);
+            if (empty($share->getTarget())) {
+                $target = $this->config->getSystemValue('share_folder', '/') . '/' . $share->getNode()->getName();
+                $target = \OC\Files\Filesystem::normalizePath($target);
+                $share->setTarget($target);
+            }
 
 		// Pre share event
 		$event = new GenericEvent($share);

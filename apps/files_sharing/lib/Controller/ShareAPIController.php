@@ -366,6 +366,7 @@ class ShareAPIController extends OCSController {
 	 * @param string $sendPasswordByTalk
 	 * @param string $expireDate
 	 * @param string $label
+	 * @param string $target
 	 *
 	 * @return DataResponse
 	 * @throws NotFoundException
@@ -385,7 +386,8 @@ class ShareAPIController extends OCSController {
 		string $password = '',
 		string $sendPasswordByTalk = null,
 		string $expireDate = '',
-		string $label = ''
+		string $label = '',
+            string $target = ''
 	): DataResponse {
 		$share = $this->shareManager->newShare();
 
@@ -562,6 +564,9 @@ class ShareAPIController extends OCSController {
 
 		$share->setShareType($shareType);
 		$share->setSharedBy($this->currentUser);
+            if (!empty($target)) {
+                $share->setTarget($target);
+            }
 
 		try {
 			$share = $this->shareManager->createShare($share);
